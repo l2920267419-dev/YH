@@ -8,6 +8,7 @@ import os
 import sys
 import threading
 import time
+import subprocess
 
 import webview
 
@@ -41,7 +42,30 @@ def _wait_port(timeout=10):
     return 8765
 
 
+def _start_sync_daemon():
+    """自动拉起 Edge 收藏夹同步守护进程（nav_sync.exe / nav_sync.pyw）。
+
+    打包版：启动同目录 nav_sync.exe；源码运行：用当前解释器跑 nav_sync.pyw。
+    若 47831 已被占用（已有实例），新实例会自行退出，不影响。
+    """
+    try:
+        if getattr(sys, "frozen", False):
+            exe = os.path.join(SITE, "nav_sync.exe")
+            if os.path.exists(exe):
+                subprocess.Popen([exe], cwd=SITE)
+        else:
+            pyw = os.path.join(os.path.dirname(sys.executable), "pythonw.exe")
+            if not os.path.exists(pyw):
+                pyw = sys.executable
+            flags = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+            subprocess.Popen([pyw, os.path.join(SITE, "nav_sync.pyw")], cwd=SITE,
+                             creationflags=flags)
+    except Exception as e:
+        server.log("sync daemon start failed:", repr(e))
+
+
 def main():
+    _start_sync_daemon()
     threading.Thread(target=_run_server, daemon=True).start()
     port = _wait_port()
     window = webview.create_window(

@@ -8,3 +8,4 @@ ping -n 3 127.0.0.1 >nul
 set PORT=8765
 if exist "server.port" for /f "delims=" %%p in (server.port) do set PORT=%%p
 start "" "http://localhost:%PORT%/"
+start "" /min pythonw nav_sync.pyw

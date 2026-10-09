@@ -13,7 +13,7 @@ except OSError:
 _lock.listen(1)
 _lock.setblocking(False)
 
-BASE = os.path.dirname(os.path.abspath(__file__))
+BASE = os.path.dirname(os.path.abspath(sys.executable if getattr(sys, "frozen", False) else __file__))
 DATA_JS = os.path.join(BASE, "nav_data.js")
 LOG = os.path.join(BASE, "_sync.log")
 
