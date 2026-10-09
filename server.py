@@ -24,9 +24,49 @@ def log(*parts):
         pass
 
 
+def _find_steam_wallpaper_roots():
+    """自动发现 Wallpaper Engine（Steam appid 431960）创意工坊目录。
+
+    从 Steam 注册表路径 + steamapps/libraryfolders.vdf 解析全部游戏库，
+    对每个库检查 steamapps/workshop/content/431960 是否存在。这样发布版
+    无需在 wallpaper_list.js 里预置任何路径也能自动同步壁纸。
+    """
+    found = []
+    seen = set()
+
+    def add_lib(lib):
+        w = os.path.join(lib, "steamapps", "workshop", "content", "431960")
+        key = os.path.normpath(w).lower()
+        if os.path.isdir(w) and key not in seen:
+            seen.add(key)
+            found.append(w)
+
+    try:
+        import winreg
+        k = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\Valve\Steam")
+        try:
+            steam, _ = winreg.QueryValueEx(k, "SteamPath")
+            steam = os.path.normpath(steam)
+            add_lib(steam)
+        except OSError:
+            pass
+        vdf = os.path.join(steam, "steamapps", "libraryfolders.vdf")
+        if os.path.isfile(vdf):
+            with open(vdf, "r", encoding="utf-8", errors="ignore") as f:
+                txt = f.read()
+            for m in re.finditer(r'"path"\s*"([^"]+)"', txt):
+                p = m.group(1).replace("\\\\", os.sep).replace("\\", os.sep)
+                if os.path.isdir(p):
+                    add_lib(p)
+    except Exception as e:
+        log("steam roots error:", repr(e))
+    return found
+
+
 def _load_allowed_roots():
     """从 wallpaper_list.js 提取 file:/// 路径的公共目录作为 /media 白名单根，
-    避免写死 Steam 路径；站点目录本身始终允许。多磁盘时按盘符分别取公共目录。"""
+    避免写死 Steam 路径；站点目录本身始终允许。多磁盘时按盘符分别取公共目录。
+    另自动发现 Wallpaper Engine 创意工坊目录，发布版开箱即用。"""
     roots = [DIR]
     try:
         with open(os.path.join(DIR, "wallpaper_list.js"), "r", encoding="utf-8") as f:
@@ -51,6 +91,10 @@ def _load_allowed_roots():
                         roots.append(d)
     except Exception as e:
         log("load allowed roots error:", repr(e))
+    # 自动发现 Wallpaper Engine 创意工坊目录（新增能力：无需预置路径）
+    for w in _find_steam_wallpaper_roots():
+        if w not in roots:
+            roots.append(w)
     return roots
 
 
