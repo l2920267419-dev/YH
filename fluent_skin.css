@@ -1,0 +1,299 @@
+/* ==========================================================================
+   夜航导航站 · Fluent 皮肤 (WinUI 3 / Windows 11 Fluent 设计语言)
+   复刻对象：SteamLuaManager (iNKORE.UI.WPF.Modern) 的界面风格
+   在 index.html 中通过 <link id="fluentSkinCss"> 加载，设置面板可开关
+   ========================================================================== */
+
+/* ---------- 字体：Segoe UI Variable 优先，中文回退微软雅黑 ---------- */
+html, body, button, input, select, textarea {
+  font-family: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+/* ---------- 浅色主题：WinUI 3 Fluent 令牌 ---------- */
+:root {
+  --bg: #f9f9f9;                 /* SolidBackgroundFillColorBase */
+  --bg-top: #fbfbfb;
+  --card: #ffffff;               /* CardBackgroundFillColorDefault */
+  --card-solid: #ffffff;
+  --input-bg: #ffffff;
+  --text: #171717;               /* TextFillColorPrimary */
+  --muted: #5d5d5d;              /* TextFillColorSecondary */
+  --line: rgba(0, 0, 0, .082);   /* DividerStrokeColorDefault */
+  --line-strong: rgba(0, 0, 0, .16);
+  --soft-bg: #f3f3f3;            /* ControlFillColor */
+  --hover-bg: rgba(0, 0, 0, .045);
+  --fav-bg: #f3f3f3;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .05);
+  --shadow-hover: 0 4px 16px rgba(0, 0, 0, .09);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .05);
+  --shadow-md: 0 8px 28px -14px rgba(0, 0, 0, .18);
+  --shadow-lg: 0 24px 64px -28px rgba(0, 0, 0, .28);
+  --navbg: rgba(249, 249, 249, .72);
+  --toast-bg: #323232;
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --focus-ring: 0 0 0 1px var(--accent), 0 0 0 4px var(--accent-soft);
+  --grid-dot: rgba(0, 0, 0, .035);
+  /* 玻璃/亚克力变量（页面组件大量引用，改这里即可整体替换） */
+  --glass: rgba(255, 255, 255, .58);
+  --glass-strong: rgba(255, 255, 255, .82);
+  --glass-line: rgba(0, 0, 0, .082);
+  --glass-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px -12px rgba(0, 0, 0, .14);
+}
+
+/* ---------- 深色主题：WinUI 3 Fluent 令牌 ---------- */
+[data-theme="dark"] {
+  --bg: #202020;                 /* SolidBackgroundFillColorBase(dark) */
+  --bg-top: #242424;
+  --card: #1c1c1c;               /* CardBackgroundFillColorDefault(dark) */
+  --card-solid: #1c1c1c;
+  --input-bg: #2b2b2b;
+  --text: #f3f3f3;
+  --muted: #9d9d9d;
+  --line: rgba(255, 255, 255, .078);
+  --line-strong: rgba(255, 255, 255, .14);
+  --soft-bg: #2b2b2b;
+  --hover-bg: rgba(255, 255, 255, .05);
+  --fav-bg: #2b2b2b;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-hover: 0 6px 20px rgba(0, 0, 0, .5);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-md: 0 10px 30px -16px rgba(0, 0, 0, .6);
+  --shadow-lg: 0 28px 72px -30px rgba(0, 0, 0, .75);
+  --navbg: rgba(32, 32, 32, .72);
+  --toast-bg: #323232;
+  --grid-dot: rgba(255, 255, 255, .04);
+  --glass: rgba(32, 32, 32, .6);
+  --glass-strong: rgba(46, 46, 46, .8);
+  --glass-line: rgba(255, 255, 255, .078);
+  --glass-shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 28px -14px rgba(0, 0, 0, .6);
+}
+
+/* ---------- Mica 式页面底色（去掉点阵/光斑的视觉噪声） ---------- */
+html[data-theme] .bg-grid { background-image: none; opacity: .5; }
+html[data-theme] .bg-orb { opacity: .22; }
+
+/* ---------- 亚克力导航栏 ---------- */
+html[data-theme] nav.cats {
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  background: var(--navbg);
+  box-shadow: 0 1px 0 var(--glass-line) inset, 0 1px 2px rgba(0,0,0,.04);
+}
+html[data-theme] nav.cats.scrolled { background: var(--navbg); }
+
+/* ---------- 顶栏 ---------- */
+html[data-theme] .topbar { padding-top: 18px; }
+html[data-theme] .brand { font-weight: 600; letter-spacing: 0; }
+
+/* ---------- 搜索框（Fluent TextBox） ---------- */
+html[data-theme] .search-box {
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--glass-strong);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: var(--shadow);
+}
+html[data-theme] .search-box:focus-within {
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+}
+html[data-theme] #searchInput { font-weight: 450; }
+
+/* ---------- 引擎胶囊（Fluent pill） ---------- */
+html[data-theme] .engine { border-radius: 999px; background: var(--glass); border: 1px solid var(--line); box-shadow: none; }
+html[data-theme] .engine.active { border: 1px solid transparent; }
+
+/* ---------- 分类芯片 ---------- */
+html[data-theme] .chip { border-radius: 999px; background: var(--glass); border: 1px solid var(--line); }
+html[data-theme] .chip:hover { border-color: var(--accent); background: var(--glass-strong); }
+
+/* ---------- 卡片（Fluent Card） ---------- */
+html[data-theme] .card {
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+  transition: background .15s, box-shadow .15s, transform .15s, border-color .15s;
+}
+html[data-theme] .card:hover {
+  background: var(--card);
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-1px);
+}
+html[data-theme] .card:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+html[data-theme] .card-name { font-weight: 600; }
+html[data-theme] .fav {
+  border-radius: 8px;
+  background: var(--soft-bg);
+  border: 1px solid transparent;
+  box-shadow: none;
+}
+html[data-theme] .fav img { padding: 8px; }
+html[data-theme] .open-ico { border-radius: 4px; }
+html[data-theme] .badge { border-radius: 4px; }
+
+/* ---------- 图标按钮（Fluent IconButton：透明底+悬停填充） ---------- */
+html[data-theme] .icon-btn, html[data-theme] .s-btn {
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background: transparent;
+  box-shadow: none;
+}
+html[data-theme] .icon-btn:hover, html[data-theme] .s-btn:hover { background: var(--hover-bg); border-color: transparent; }
+html[data-theme] .icon-btn:active, html[data-theme] .s-btn:active { background: rgba(0,0,0,.06); }
+
+/* ---------- 主按钮 / 次按钮（Fluent Button） ---------- */
+html[data-theme] .btn-primary {
+  border-radius: 4px;
+  border: 1px solid transparent;
+  box-shadow: none;
+  transition: background .15s, filter .15s;
+}
+html[data-theme] .btn-primary:hover { filter: brightness(1.05); }
+html[data-theme] .btn-ghost {
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+}
+html[data-theme] .btn-ghost:hover { background: var(--hover-bg); color: var(--text); border-color: var(--line-strong); }
+
+/* ---------- 输入框（Fluent TextBox） ---------- */
+html[data-theme] .field input, html[data-theme] .bg-url, html[data-theme] .bang-input {
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: var(--input-bg);
+}
+html[data-theme] .field input:focus, html[data-theme] .bg-url:focus, html[data-theme] .bang-input:focus {
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+}
+html[data-theme] .s-select { border-radius: 4px; }
+
+/* ---------- 弹窗（Fluent ContentDialog） ---------- */
+html[data-theme] .modal {
+  border-radius: 8px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass-strong);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  box-shadow: 0 32px 72px -24px rgba(0,0,0,.4);
+}
+
+/* ---------- 命令面板（Ctrl+K） ---------- */
+html[data-theme] .cmdk-panel {
+  border-radius: 8px;
+  border: 1px solid var(--glass-line);
+  background: var(--glass-strong);
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  box-shadow: 0 32px 72px -24px rgba(0,0,0,.45);
+}
+html[data-theme] .cmdk-item { border-radius: 6px; }
+html[data-theme] .cmdk-item.sel { background: var(--accent-soft); }
+html[data-theme] .cmdk-fav { border-radius: 6px; }
+html[data-theme] .cmdk-k { border-radius: 4px; }
+
+/* ---------- 设置面板（右侧 Flyout） ---------- */
+html[data-theme] .set-panel {
+  background: var(--glass-strong);
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  border-left: 1px solid var(--glass-line);
+  box-shadow: -24px 0 64px -32px rgba(0,0,0,.35);
+}
+html[data-theme] .set-label { letter-spacing: .08em; font-weight: 700; }
+
+/* ---------- 开关（WinUI ToggleSwitch：40x20 轨道 + 12px 滑块） ---------- */
+html[data-theme] .switch {
+  width: 40px; height: 20px;
+  border-radius: 999px;
+  background: var(--soft-bg);
+  border: 1px solid var(--line-strong);
+  transition: background .18s, border-color .18s;
+}
+html[data-theme] .switch::after {
+  top: 2px; left: 2px;
+  width: 14px; height: 14px;
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  transition: transform .18s ease, background .18s, border-color .18s;
+}
+html[data-theme] .switch.on { background: var(--accent); border-color: transparent; }
+html[data-theme] .switch.on::after { transform: translateX(20px); border-color: transparent; }
+
+/* ---------- 分段控件（WinUI SegmentedControl：选中项为强调色胶囊） ---------- */
+html[data-theme] .seg {
+  background: transparent;
+  padding: 0;
+  gap: 4px;
+  border-radius: 8px;
+}
+html[data-theme] .seg button {
+  border-radius: 4px;
+  padding: 6px 12px;
+}
+html[data-theme] .seg button.on {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: none;
+}
+html[data-theme] .seg.v2 { gap: 4px; }
+
+/* ---------- 滑块（WinUI Slider） ---------- */
+html[data-theme] input[type="range"].s-range {
+  background: var(--soft-bg);
+  border: 1px solid var(--line);
+  height: 4px;
+  border-radius: 2px;
+}
+html[data-theme] input[type="range"].s-range::-webkit-slider-thumb {
+  width: 16px; height: 16px;
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 1px 3px rgba(0,0,0,.25);
+}
+
+/* ---------- 键盘提示 / 提示 ---------- */
+html[data-theme] .hints kbd, html[data-theme] .cmdk-k {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+html[data-theme] #toast { border-radius: 6px; font-weight: 500; }
+html[data-theme] .empty-custom, html[data-theme] #noResult { border-radius: 8px; }
+
+/* ---------- 分组头 ---------- */
+html[data-theme] .cat-head h2 { font-weight: 650; letter-spacing: 0; }
+html[data-theme] .cat-head { border-bottom: 1px solid var(--glass-line); }
+html[data-theme] .g-toggle { border-radius: 4px; }
+html[data-theme] .chip-add { border-radius: 4px; border-style: solid; }
+
+/* ---------- 焦点（Fluent focus ring） ---------- */
+html[data-theme] .engine:focus-visible, html[data-theme] .chip:focus-visible, html[data-theme] .chip-add:focus-visible,
+html[data-theme] .icon-btn:focus-visible, html[data-theme] .btn-primary:focus-visible, html[data-theme] .btn-ghost:focus-visible,
+html[data-theme] .g-toggle:focus-visible, html[data-theme] .del:focus-visible, html[data-theme] .fab:focus-visible,
+html[data-theme] .s-btn:focus-visible, html[data-theme] .switch:focus-visible, html[data-theme] .s-select:focus-visible,
+html[data-theme] .s-range:focus-visible, html[data-theme] .bg-url:focus-visible, html[data-theme] .bang-input:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ---------- 滚动条（WinUI thin scrollbar） ---------- */
+html[data-theme] ::-webkit-scrollbar { width: 8px; height: 8px; }
+html[data-theme] ::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 4px;
+  border: 2px solid var(--bg);
+}
+html[data-theme] ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ---------- 大时钟（Fluent Hero） ---------- */
+html[data-theme] .hero h1 { font-weight: 650; letter-spacing: -.01em; }
+html[data-theme] #bigTime { font-variant-numeric: tabular-nums; }

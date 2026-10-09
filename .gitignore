@@ -1,0 +1,24 @@
+# 打包产物（本地运行用，不入库）
+_internal/
+*.exe
+
+# 运行时生成
+server.log
+server.log.old
+_sync.log
+server.port
+
+# 本地备份
+*.bak_*
+*.pre_*
+
+# Python
+__pycache__/
+*.pyc
+
+# 本地工具（gh CLI 等）
+_tools/
+
+# 个人数据与本地环境（不入库）
+nav_data.js
+wallpaper_list.js
